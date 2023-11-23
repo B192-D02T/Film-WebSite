@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/films")
 @RequiredArgsConstructor
-public class FilmController { // github
+public class FilmController { // deneme
 
     private final FilmService filmService;
 
