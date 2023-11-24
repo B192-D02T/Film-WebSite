@@ -1,10 +1,16 @@
 package com.dev02.service;
 
 import com.dev02.domain.Film;
-import com.dev02.dto.FilmDto;
+
+import com.dev02.dto.FilmDTO;
+
+
 import com.dev02.exception.ConflictException;
+import com.dev02.exception.ResourceNotFoundException;
 import com.dev02.repository.FilmRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,11 +21,12 @@ import java.util.List;
 public class FilmService {
 
     private final FilmRepo filmRepo;
+
     public void saveMovie(Film film) {
 
-        boolean isExist=filmRepo.existsByMovieName(film.getMovieName());
+        boolean isExist = filmRepo.existsByMovieName(film.getMovieName());
 
-        if (isExist){//böyle bir film varsa
+        if (isExist) {//böyle bir film varsa
             throw new ConflictException("Bu İsimde Bir Film Vardır.Ekleme Başarısız!!");
         }
 
@@ -28,17 +35,91 @@ public class FilmService {
 
     }
 
-    //Tüm Filmleri getirme
-    public List<FilmDto> getAll() {
-        List<Film> filmList=filmRepo.findAll();//"FROM Film"
-        List<FilmDto> filmDtoList=new ArrayList<>();
 
-        for (Film film:filmList){
-            FilmDto filmDto=new FilmDto(film);
-            filmDtoList.add(filmDto);
+    //2-B Get All Film
+    public List<Film> getAll() {
+        return filmRepo.findAll();
+    }
+
+    //2-C Get ALL DTOFILM
+    public List<FilmDTO> getAllDTO() {
+        List<Film> filmList = getAll();
+        List<FilmDTO> filmDTOList = new ArrayList<>();
+
+        for (Film film : filmList) {
+
+            FilmDTO filmDTO = new FilmDTO(film);
+            filmDTOList.add(filmDTO);
+
         }
+        return filmDTOList;
+    }
 
-        return filmDtoList;
+    //3-B
+    public List<FilmDTO> getFilmDTOByMovieNameLike(String word) {
+
+        List<Film> filmList = filmRepo.findByMovieNameContainingJPQL(word).//Queryden gelen Filmler
+                orElseThrow(() -> new ResourceNotFoundException("Girdiğiniz Bilgilerde Film Bulunamadı.."));
+
+        List<FilmDTO> filmDTOList = new ArrayList<>();
+
+        for (Film film : filmList) {
+
+            FilmDTO filmDTO = new FilmDTO(film);
+            filmDTOList.add(filmDTO);
+        }
+        return filmDTOList;
+    }
+
+    //3-C
+    public List<Film> getFilmByMovieNameLike(String word) {
+        return filmRepo.findByMovieNameContaining(word).
+                orElseThrow(() -> new ResourceNotFoundException("Girdiğiniz Bilgilerde Film Bulunamadı.."));
+    }
+
+
+    public Film findFilmById(Long id) {
+        return filmRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Girdiğiniz ID'de Film Bulunamadı.."));
 
     }
+
+    //4
+    public void deleteFilmById(Long id) {
+        findFilmById(id);
+        filmRepo.deleteById(id);
+
+    }
+
+    //5
+    public void updateFilmById(Long id, FilmDTO filmDTO) {
+
+        Film foundFilm = findFilmById(id);//böyle bir film var mı
+
+        //film isimleri unıq olduğu için kontrolü buradan yapıyoruz
+        boolean isExist = filmRepo.existsByMovieName(filmDTO.getMovieName());//kullanıcıdan aldığımız json dosyasındaki film ismi var mı
+
+        if (isExist && !filmDTO.getMovieName().equals(foundFilm.getMovieName())) {//kullanıcının verdiği film ismi ile id ile geln film ismi aynı değilse
+            //film varsa
+            throw new ConflictException("Girdiğiniz Film İsmi Mevcut :" + filmDTO.getMovieName());
+
+        }
+
+        foundFilm.setMovieName(filmDTO.getMovieName());
+        foundFilm.setRelaseYear(filmDTO.getRelaseYear());
+        foundFilm.setImdbScore(filmDTO.getImdbScore());
+        foundFilm.setLength(filmDTO.getLength());
+        foundFilm.setActorSet(filmDTO.getActorSet());
+        foundFilm.setLanguageName(filmDTO.getLanguageName());
+        foundFilm.setCategoryType(filmDTO.getCategoryType());
+
+        filmRepo.save(foundFilm);
+
+    }
+
+    //6-A
+    public Page<Film> getAllCustomerByPage(Pageable pageable) {
+        return filmRepo.findAll(pageable);
+    }
+
+
 }
