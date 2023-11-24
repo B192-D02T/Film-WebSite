@@ -1,5 +1,6 @@
 package com.dev02.domain;
 
+import com.dev02.domain.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.dev02.domain.enums.CategoryType;
 import com.dev02.domain.enums.LanguageName;
