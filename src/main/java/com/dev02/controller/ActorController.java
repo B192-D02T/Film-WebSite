@@ -27,5 +27,5 @@ public class ActorController {
         return new ResponseEntity<>("Aktör Ekleme Başarılı", HttpStatus.CREATED);
     }
 
- //Tü
+ //
 }
