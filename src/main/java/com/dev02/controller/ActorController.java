@@ -27,5 +27,16 @@ public class ActorController {
         return new ResponseEntity<>("Aktör Ekleme Başarılı", HttpStatus.CREATED);
     }
 
- //Tü
+//2- Tüm aKtörleri Getirme
+
+ //2-A id ,le getirme
+ //2-B İsim  ,le getirme
+
+ //Silme
+
+ //güncelleme
+
+ //aktör ismi ile sadece film ismi getirme
+
+ //page olarak gösterme
 }

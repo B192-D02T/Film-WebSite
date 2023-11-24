@@ -76,7 +76,7 @@ public class FilmController { // deneme Halil
 
     //6-TÜM filmler PAGE olarak Gösterme
 
-    @GetMapping("/page")//http://localhost:8080/films/page
+    @GetMapping("/page")//http://localhost:8080/films/page?page=0&size=2&sort=name&direction=ASC
     public ResponseEntity<Page<Film>> getAllByPage(@RequestParam("page") int page,//kaçıncı sayfa
                                                    @RequestParam("size") int size,//her sayfada kaç bilgi ar
                                                    @RequestParam("sort") String prop,//hangi değişken
