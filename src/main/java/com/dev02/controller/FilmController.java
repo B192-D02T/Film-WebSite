@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
 import java.util.Set;
+
 
 @RestController
 @RequestMapping("/films")
 @RequiredArgsConstructor
-public class FilmController {
+public class FilmController { // deneme Halil
 
     private final FilmService filmService;
     private final ActorService actorService;
@@ -41,6 +43,7 @@ public class FilmController {
 
         List<FilmDTO> filmList = filmService.getAllDTO();
         return ResponseEntity.ok(filmList);
+
     }
 
     //3-Film İsmi İle Film Getirme-Tüm İsim ve İsmin Bir Kaç harfi ile

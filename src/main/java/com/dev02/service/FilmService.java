@@ -1,7 +1,10 @@
 package com.dev02.service;
 
 import com.dev02.domain.Film;
+
 import com.dev02.dto.FilmDTO;
+
+
 import com.dev02.exception.ConflictException;
 import com.dev02.exception.ResourceNotFoundException;
 import com.dev02.repository.FilmRepo;
@@ -31,6 +34,7 @@ public class FilmService {
         filmRepo.save(film);
 
     }
+
 
     //2-B Get All Film
     public List<Film> getAll() {
@@ -85,6 +89,7 @@ public class FilmService {
         filmRepo.deleteById(id);
 
     }
+
     //5
     public void updateFilmById(Long id, FilmDTO filmDTO) {
 
@@ -110,6 +115,7 @@ public class FilmService {
         filmRepo.save(foundFilm);
 
     }
+
     //6-A
     public Page<Film> getAllCustomerByPage(Pageable pageable) {
         return filmRepo.findAll(pageable);
