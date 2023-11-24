@@ -4,7 +4,6 @@ import com.dev02.domain.Actor;
 import com.dev02.domain.Film;
 import com.dev02.domain.enums.CategoryType;
 import com.dev02.domain.enums.LanguageName;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

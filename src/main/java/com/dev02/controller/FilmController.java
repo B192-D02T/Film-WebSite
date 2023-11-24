@@ -63,7 +63,7 @@ public class FilmController {
 
 
     //5-fİLM ıd ile Film GÜNCELLEME
-    @PutMapping("/update/{id}")//http://localhost:8080/films/update/1
+    @PutMapping("/update/{id}")//http://localhost:8080/films/update/1 +JSON
     public ResponseEntity<String> updateFilm(@PathVariable Long id, @RequestBody FilmDTO filmDTO) {
 
         filmService.updateFilmById(id, filmDTO);

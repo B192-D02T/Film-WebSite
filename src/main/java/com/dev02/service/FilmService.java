@@ -44,7 +44,7 @@ public class FilmService {
 
         for (Film film : filmList) {
 
-            FilmDTO filmDTO = new FilmDTO();
+            FilmDTO filmDTO = new FilmDTO(film);
             filmDTOList.add(filmDTO);
 
         }
@@ -54,12 +54,14 @@ public class FilmService {
     //3-B
     public List<FilmDTO> getFilmDTOByMovieNameLike(String word) {
 
-        List<Film> filmList = filmRepo.findByMovieNameContainingJPQL(word).orElseThrow(() -> new ResourceNotFoundException("Girdiğiniz Bilgilerde Film Bulunamadı.."));
+        List<Film> filmList = filmRepo.findByMovieNameContainingJPQL(word).//Queryden gelen Filmler
+                orElseThrow(() -> new ResourceNotFoundException("Girdiğiniz Bilgilerde Film Bulunamadı.."));
+
         List<FilmDTO> filmDTOList = new ArrayList<>();
 
         for (Film film : filmList) {
 
-            FilmDTO filmDTO = new FilmDTO();
+            FilmDTO filmDTO = new FilmDTO(film);
             filmDTOList.add(filmDTO);
         }
         return filmDTOList;
@@ -86,7 +88,8 @@ public class FilmService {
     //5
     public void updateFilmById(Long id, FilmDTO filmDTO) {
 
-        Film foundFilm = findFilmById(id);
+        Film foundFilm = findFilmById(id);//böyle bir film var mı
+
         //film isimleri unıq olduğu için kontrolü buradan yapıyoruz
         boolean isExist = filmRepo.existsByMovieName(filmDTO.getMovieName());//kullanıcıdan aldığımız json dosyasındaki film ismi var mı
 

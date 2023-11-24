@@ -18,6 +18,6 @@ public interface FilmRepo extends JpaRepository<Film, Long> {
 
     Optional<List<Film> > findByMovieNameContaining(String word);
 
-    @Query(value = "SELECT * FROM tbl_film f WHERE f.name LIKE %:pWord%",nativeQuery = true)//SQL
+    @Query(value = "SELECT * FROM  tbl_film f WHERE f.movie_name ILIKE %:pword%",nativeQuery = true)//SQL
     Optional<List<Film>> findByMovieNameContainingJPQL(@Param("pword") String word);
 }
