@@ -23,7 +23,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/films")
 @RequiredArgsConstructor
-public class FilmController { // deneme Halil
+public class FilmController {
 
     private final FilmService filmService;
     private final ActorService actorService;
