@@ -1,6 +1,7 @@
 package com.dev02.repository;
 
 import com.dev02.domain.Film;
+import com.dev02.dto.FilmDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,9 +13,11 @@ import java.util.Optional;
 @Repository
 public interface FilmRepo extends JpaRepository<Film, Long> {
 
+
     boolean existsByMovieName(String title);
 
-    Optional<List<Film>> findByMovieNameContaining(String word);
+    Optional<List<Film> > findByMovieNameContaining(String word);
+
     @Query(value = "SELECT * FROM  tbl_film f WHERE f.movie_name ILIKE %:pword%",nativeQuery = true)//SQL
     Optional<List<Film>> findByMovieNameContainingJPQL(@Param("pword") String word);
 }
